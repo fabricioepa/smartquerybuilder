@@ -1,12 +1,16 @@
-#Smart Query Builder Project
+# Smart Query Builder Project
 
 A fluent way for building dynamic queries based on preconditions.
 
 ---
 
-## Usage
+## Basic Usage
 
 ```java
+import static com.fabway.smartquerybuilder.Predicates.*;
+
+//..
+
 boolean admin = false;
 Integer age = null;
   
