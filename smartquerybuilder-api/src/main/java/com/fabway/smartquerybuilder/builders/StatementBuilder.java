@@ -1,7 +1,6 @@
 package com.fabway.smartquerybuilder.builders;
 
 import com.fabway.smartquerybuilder.AbstractBuilder;
-import com.fabway.smartquerybuilder.BuilderContext;
 
 /**
  * Builds a statement using preconditions.
