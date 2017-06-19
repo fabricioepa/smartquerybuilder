@@ -5,13 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AssertionsTest.class, 
-	    StatementTemplateTest.class,
-	    PredicatesTest.class, 
-	    BuilderContextTest.class,
-		StatementBuilderTest.class, 
-		ConditionsTest.class,
-		TextBufferTest.class})
+@SuiteClasses({ AssertionsTest.class, StatementTemplateTest.class, PredicatesTest.class, BuilderContextTest.class,
+        StatementBuilderTest.class, ConditionsTest.class, TextBufferTest.class })
 public class UnitTests {
 
 }

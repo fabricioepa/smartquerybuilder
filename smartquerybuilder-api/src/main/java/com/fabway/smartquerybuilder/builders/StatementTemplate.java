@@ -3,6 +3,7 @@ package com.fabway.smartquerybuilder.builders;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fabway.smartquerybuilder.ITemplate;
 import com.fabway.smartquerybuilder.TextBuffer;
 
 /**
@@ -10,11 +11,11 @@ import com.fabway.smartquerybuilder.TextBuffer;
  * 
  * @see StatementBuilder
  */
-public class StatementTemplate {
+public class StatementTemplate implements ITemplate {
 
     protected TextBuffer buffer = createBuffer();
     protected String statement = null;
-    private List<Object> paramsList = createParamsList();
+    private List<Object> parameters = createParametersList();
 
     /**
      * Default constructor.
@@ -31,7 +32,7 @@ public class StatementTemplate {
         this();
         this.statement = source.statement;
         this.buffer = createBuffer(source.buffer);
-        this.paramsList.addAll(source.paramsList);
+        this.parameters.addAll(source.parameters);
     }
 
     /**
@@ -76,65 +77,41 @@ public class StatementTemplate {
         buffer.add(text);
     }
 
-    /**
-     * Add the parameters to the list.
-     * 
-     * @param params
-     */
-    public void addParams(Object... params) {
+    @Override
+    public void addParameters(Object... params) {
         if (params != null && params.length > 0) {
             for (Object param : params) {
-                paramsList.add(param);
+                parameters.add(param);
             }
         }
     }
 
-    /**
-     * Returns the current parameters as a list.
-     * 
-     * @return the list
-     */
-    public List<Object> getParamsList() {
-        return paramsList;
+    @Override
+    public List<Object> getParameters() {
+        return parameters;
     }
 
-    /**
-     * Returns the current parameters as an array.
-     * 
-     * @return the parameters array
-     */
-    public Object[] getParamsAsArray() {
-        return paramsList.toArray();
+    @Override
+    public Object[] getParametersArray() {
+        return parameters.toArray();
     }
 
     /**
      * Sets the parameter list.
      * 
-     * @param paramsList
+     * @param parameters
      */
-    public void setParamsList(List<Object> paramsList) {
-        this.paramsList = paramsList;
+    public void setParamsList(List<Object> parameters) {
+        this.parameters = parameters;
     }
 
-    /**
-     * Returns the parameter in the position.
-     * 
-     * @param pos
-     *            the parameter position
-     * @return the parameter value
-     * @throws IndexOutOfBoundsException
-     */
-    public Object getParam(int pos) {
-        return paramsList.get(pos);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#clone()
-     */
     @Override
-    public StatementTemplate clone() {
+    public Object getParam(int pos) {
+        return parameters.get(pos);
+    }
+
+    @Override
+    public StatementTemplate copy() {
         return new StatementTemplate(this);
     }
 
@@ -163,7 +140,7 @@ public class StatementTemplate {
      * 
      * @return
      */
-    protected ArrayList<Object> createParamsList() {
+    protected ArrayList<Object> createParametersList() {
         return new ArrayList<Object>();
     }
 

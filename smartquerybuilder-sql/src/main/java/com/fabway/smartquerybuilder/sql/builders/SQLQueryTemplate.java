@@ -50,11 +50,6 @@ public class SQLQueryTemplate extends StatementTemplate {
         this.orderBy = createBuffer(source.orderBy);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.fabway.smartquerybuilder.builders.StatementTemplate#build()
-     */
     @Override
     public String build() {
         super.buffer.clear();
@@ -113,13 +108,8 @@ public class SQLQueryTemplate extends StatementTemplate {
         orderBy.add(expression);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#clone()
-     */
     @Override
-    public SQLQueryTemplate clone() {
+    public SQLQueryTemplate copy() {
         return new SQLQueryTemplate(this);
     }
 

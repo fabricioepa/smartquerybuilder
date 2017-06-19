@@ -31,6 +31,9 @@ public final class SQLFunctions {
 
 		@Override
 		public String call(String value) {
+		    if (value == null) {
+                return null;
+            }
 			return "%" + value;
 		}
 	};
@@ -42,6 +45,9 @@ public final class SQLFunctions {
 
 		@Override
 		public String call(String value) {
+		    if (value == null) {
+                return null;
+            }
 			return value + "%";
 		}
 	};

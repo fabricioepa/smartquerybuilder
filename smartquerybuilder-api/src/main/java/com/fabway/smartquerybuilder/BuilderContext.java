@@ -71,8 +71,12 @@ public class BuilderContext {
         results.put(key, result);
     }
 
-    @Override
-    public BuilderContext clone() {
+    /**
+     * Creates a copy of this context.
+     * 
+     * @return the copy
+     */
+    public BuilderContext copy() {
         return new BuilderContext(this);
     }
 }

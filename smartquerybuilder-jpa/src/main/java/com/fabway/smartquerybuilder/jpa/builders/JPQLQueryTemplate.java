@@ -11,7 +11,7 @@ import com.fabway.smartquerybuilder.TextBuffer;
 import com.fabway.smartquerybuilder.sql.builders.SQLQueryTemplate;
 
 /**
- * JPQL query object.
+ * JPQL query template.
  * 
  */
 public class JPQLQueryTemplate extends SQLQueryTemplate {
@@ -31,11 +31,11 @@ public class JPQLQueryTemplate extends SQLQueryTemplate {
      */
     public JPQLQueryTemplate(JPQLQueryTemplate source) {
         super(source);
-        this.namedParameters = source.namedParameters;
+        this.namedParameters = new HashMap<>(source.namedParameters);
     }
 
     /**
-     * Sets the parameter
+     * Sets a named parameter.
      * 
      * @param name
      * @param value
@@ -95,7 +95,10 @@ public class JPQLQueryTemplate extends SQLQueryTemplate {
     }
 
     private void mountFrom() {
-        getFrom().addStart(" from ");
+        TextBuffer from = getFrom();
+        if (!from.isEmpty()) {
+            from.addStart(" from ");
+        }
     }
 
     private void mountWhere() {
@@ -119,13 +122,8 @@ public class JPQLQueryTemplate extends SQLQueryTemplate {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#clone()
-     */
     @Override
-    public JPQLQueryTemplate clone() {
+    public JPQLQueryTemplate copy() {
         return new JPQLQueryTemplate(this);
     }
 
@@ -137,7 +135,7 @@ public class JPQLQueryTemplate extends SQLQueryTemplate {
             query.setParameter(parameter.getKey(), parameter.getValue());
         }
 
-        Object[] paramsAsArray = this.getParamsAsArray();
+        Object[] paramsAsArray = this.getParametersArray();
         for (int pos = 0; pos < paramsAsArray.length; pos++) {
             query.setParameter(pos + 1, paramsAsArray[pos]);
         }

@@ -41,8 +41,8 @@ public class BuilderContextTest {
 	}
 
 	@Test
-	public void testClone() {
-		BuilderContext bc2 = bc.clone();
+	public void testCopy() {
+		BuilderContext bc2 = bc.copy();
 		
 		//both contexts are equal
 		assertTrue(bc.result("c1_true"));

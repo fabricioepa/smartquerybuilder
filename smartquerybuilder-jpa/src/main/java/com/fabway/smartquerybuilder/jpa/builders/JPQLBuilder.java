@@ -5,39 +5,19 @@ import java.util.function.Predicate;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.fabway.smartquerybuilder.AbstractBuilder;
 import com.fabway.smartquerybuilder.BuilderContext;
 
 /**
  * Builder for creating and configuring the {@link JPQLQueryTemplate} object.
- * Usage:
- * 
- * <pre>{@code 
- * Long roleId = null;
- * JPQLBuilder query = new JPQLBuilder()
- *      .given("roleId", roleId, not(IsZero), not(Null))
- *      .given("falseCondition", false, True)
- *      .from("from Users u")
- *      .from(" inner join Role role on role.id = u.role_id ", "roleId")
- *      .and(" u.id > 0")
- *      .and(" and role.id = ? ", "roleId")
- *      .or(" this text will not be added", "falseCondition");
- *      
- * String sqlCount = query.clone().select("count(u.id)").get();
- * String sqlSelect = query.select("select u.*").get();
- * }
- * </pre> 
- * 
  */
-public class JPQLBuilder {
-    private JPQLQueryTemplate query = new JPQLQueryTemplate();
-    private BuilderContext builderContext = new BuilderContext();
+public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate> {
 
     /**
      * Default constructor.
      */
     public JPQLBuilder() {
         super();
-        build();
     }
 
     /**
@@ -46,48 +26,8 @@ public class JPQLBuilder {
      * @param source
      */
     public JPQLBuilder(JPQLBuilder source) {
-        this();
-        this.query = source.getQuery().clone();
-        this.builderContext = source.getContext().clone();
-    }
-
-    /**
-     * Override this method to automatically access the internal builder methods
-     * and variables.
-     */
-    public void build() {
-
-    }
-
-    /**
-     * Adds a precondition in the context.
-     * 
-     * @see BuilderContext#given(String, Object, Predicate)
-     * @param key
-     * @param value
-     * @param predicate
-     * @return this builder
-     */
-    public <T> JPQLBuilder given(String key, T value, Predicate<T> predicate) {
-        this.getContext().given(key, value, predicate);
-        return this;
-    }
-
-    /**
-     * Create a test for the parameter value. If the test succeeded a test
-     * result is stored using the parameter name as key.
-     * 
-     * @param paramName
-     * @param paramValue
-     * @param condition
-     * @return this builder
-     * @see BuilderContext#given(String, Object, Predicate)
-     */
-    public <T> JPQLBuilder givenParam(String paramName, T paramValue, final Predicate<T> condition) {
-        String testName = paramName;
-        this.getContext().given(testName, paramValue, condition);
-        param(paramName, paramValue, testName);
-        return this;
+        super.setContext(source.getContext().copy());
+        super.setTemplate(source.getTemplate().copy());
     }
 
     /**
@@ -101,7 +41,7 @@ public class JPQLBuilder {
      */
     public JPQLBuilder select(String expression, String... tests) {
         if (this.getContext().results(tests)) {
-            getQuery().select(expression);
+            getTemplate().select(expression);
         }
         return this;
     }
@@ -116,7 +56,7 @@ public class JPQLBuilder {
      */
     public JPQLBuilder from(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().from(expression);
+            getTemplate().from(expression);
         }
         return this;
     }
@@ -131,7 +71,7 @@ public class JPQLBuilder {
      */
     public JPQLBuilder where(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().where(expression);
+            getTemplate().where(expression);
         }
         return this;
     }
@@ -146,7 +86,7 @@ public class JPQLBuilder {
      */
     public JPQLBuilder groupBy(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().groupBy(expression);
+            getTemplate().groupBy(expression);
         }
         return this;
     }
@@ -161,14 +101,14 @@ public class JPQLBuilder {
      */
     public JPQLBuilder orderBy(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().orderBy(expression);
+            getTemplate().orderBy(expression);
         }
         return this;
     }
 
     public JPQLBuilder and(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().and(expression);
+            getTemplate().and(expression);
         }
         return this;
     }
@@ -183,9 +123,46 @@ public class JPQLBuilder {
      */
     public JPQLBuilder or(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().or(expression);
+            getTemplate().or(expression);
         }
         return this;
+    }
+
+    /**
+     * Create a test for the parameter value. If the test succeeded a test
+     * result is stored using the parameter name as key.
+     * 
+     * 
+     * 
+     * Shortcut for calling methods {@link #given(String, Object, Predicate)}
+     * and {@link #param(Object, String...)}. For the example bellow:
+     * 
+     * <pre>
+     *  .given("pName", name, not(Empty))
+     *  .param(name, "pName")
+     *  .from("...")
+     *  .where("name = :name", "pName")
+     * </pre>
+     * 
+     * You can only call:
+     * 
+     * <pre>
+     *  .givenParam("pName", name, not(Empty))
+     *  .from("...")
+     *  .where("name = :name", "pName")
+     * </pre>
+     * 
+     * 
+     * @param paramKey
+     *            the parameter name will be used as a precondition key
+     * @param paramValue
+     * @param predicate
+     * @return this builder
+     * @see BuilderContext#given(String, Object, Predicate)
+     */
+    @Override
+    public <T> JPQLBuilder givenParam(String paramKey, T paramValue, final Predicate<T> predicate) {
+        return super.givenParam(paramKey, paramValue, predicate);
     }
 
     /**
@@ -201,51 +178,36 @@ public class JPQLBuilder {
      */
     public JPQLBuilder param(String name, Object value, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getQuery().setParameter(name, value);
+            getTemplate().setParameter(name, value);
         }
         return this;
     }
 
     /**
-     * Apply the method {@link JPQLQueryTemplate#addParams(Object...)}
+     * Apply the method
+     * {@link JPQLQueryTemplate#createQuery(EntityManager, Class)}
      * 
-     * @param value
-     * @param conditions
-     *            the preconditions
-     * @return this instance
+     * @param em
+     * @param resultClass
+     * @return this builder
      */
-    public JPQLBuilder param(Object value, String... conditions) {
-        if (this.getContext().results(conditions)) {
-            getQuery().addParams(value);
-        }
-        return this;
+    public <T> TypedQuery<T> createQuery(EntityManager em, Class<T> resultClass) {
+        return getTemplate().createQuery(em, resultClass);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#clone()
-     */
     @Override
-    public JPQLBuilder clone() {
+    public JPQLBuilder copy() {
         return new JPQLBuilder(this);
     }
 
-    public JPQLQueryTemplate getQuery() {
-        return query;
+    @Override
+    protected JPQLBuilder builder() {
+        return this;
     }
 
-    public <T> TypedQuery<T> createQuery(EntityManager em, Class<T> resultClass) {
-        return getQuery().createQuery(em, resultClass);
-    }
-
-    /**
-     * Returns the {@link BuilderContext} instance for this builder.
-     * 
-     * @return the instance.
-     */
-    protected BuilderContext getContext() {
-        return builderContext;
+    @Override
+    protected JPQLQueryTemplate createTemplate() {
+        return new JPQLQueryTemplate();
     }
 
 }

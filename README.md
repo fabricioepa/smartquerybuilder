@@ -18,12 +18,12 @@ boolean admin = false;
 Integer age = null;
   
 StatementBuilder sb = new StatementBuilder()
-  .given("hasAge", age, and(not(IsZero), not(Null))
-  .given("isAdmin", admin, True)
-  .param(age, "hasAge")
+  .given("pAge", age, and(not(IsZero), not(Null))
+  .given("pAdmin", admin, True)
+  .param(age, "pAge")
   .put("DELETE FROM USER WHERE ID > 0")
-  .put(" AND AGE >= ? ", "hasAge")
-  .put(" AND IS_ADMIN = 1", "isAdmin");
+  .put(" AND AGE >= ? ", "pAge")
+  .put(" AND IS_ADMIN = 1", "pAdmin");
   
   //Now you can use the statement
   sb.get() //returns the mounted statement "DELETE FROM USER WHERE ... "
@@ -32,7 +32,7 @@ StatementBuilder sb = new StatementBuilder()
   sb.params();
  ```
  
- ## SQL Queries and Counting Using CLONE
+ ## SQL Queries and Counting Using COPY
 ```java
 import static com.fabway.smartquerybuilder.Predicates.*;
 //..
@@ -41,16 +41,16 @@ Long roleId = null;
 String level = "root";
 
 SQLQueryBuilder sb = new SQLQueryBuilder()
-                            .given("c1", roleId, and(not(IsZero), NotNull))
-                            .given("c2", level, not(Empty))
-                            .param(roleId, "c1")
-                            .param(level, "c2")
+                            .given("p1", roleId, and(not(IsZero), NotNull))
+                            .given("p2", level, not(Empty))
+                            .param(roleId, "p1")
+                            .param(level, "p2")
                             .from(" from Users u")
-                            .from(" inner join Role role on role.id = u.role_id ", "c1")
+                            .from(" inner join Role role on role.id = u.role_id ", "p1")
                             .where(" where u.id > 0")
-                            .where(" and role.id = ? ", "c1")
-                            .where(" and u.level = ?", "c2")
-                            .orderBy(" order by u.login, u.level", "c2");
+                            .where(" and role.id = ? ", "p1")
+                            .where(" and u.level = ?", "p2")
+                            .orderBy(" order by u.login, u.level", "p2");
  
 String sqlCount = sb.clone().select("select count(u.id) ").get();
 String sqlSelect = sb.select("select u.* ").build();
