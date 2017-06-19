@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fabricioepa/smartquerybuilder.svg?branch=master)](https://travis-ci.org/fabricioepa/smartquerybuilder)
+
 # Smart Query Builder Project
 
 A fluent way for building dynamic queries based on preconditions.
