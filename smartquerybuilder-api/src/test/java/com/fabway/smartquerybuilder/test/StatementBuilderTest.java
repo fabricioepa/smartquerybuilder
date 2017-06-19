@@ -109,11 +109,11 @@ public class StatementBuilderTest {
     public void testCopy() {
         StatementBuilder sb2 = this.sb.copy();
 
-        assertEquals(sb2.getTemplate().get(), this.sb.getTemplate().get());
+        assertEquals(sb2.get(), this.sb.get());
 
         this.sb.put("new data");
 
-        assertNotEquals(sb2.getTemplate().build(), this.sb.getTemplate().build());
+        assertNotEquals(sb2.build(), this.sb.build());
 
     }
 }

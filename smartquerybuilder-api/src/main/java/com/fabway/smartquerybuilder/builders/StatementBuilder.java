@@ -54,9 +54,4 @@ public class StatementBuilder extends AbstractBuilder<StatementBuilder, Statemen
         return new StatementTemplate();
     }
 
-    @Override
-    protected BuilderContext createContext() {
-        return new BuilderContext();
-    }
-
 }
