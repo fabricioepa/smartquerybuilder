@@ -32,7 +32,7 @@ StatementBuilder sb = new StatementBuilder()
   sb.params();
  ```
  
- ## SQL Queries and Counting
+ ## SQL Queries and Counting Using CLONE
 ```java
 import static com.fabway.smartquerybuilder.Predicates.*;
 //..
