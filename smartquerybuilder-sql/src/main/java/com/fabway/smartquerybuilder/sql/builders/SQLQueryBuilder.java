@@ -8,11 +8,10 @@ import com.fabway.smartquerybuilder.BuilderContext;
  * Builder for creating and configuring the {@link SQLQueryTemplate} object.
  * Usage:
  * 
- * <code>
- * <pre>
+ * <pre>{@code
  * Long roleId = null;
  * SLQueryBuilder query = new SQLQueryBuilder()
- * 		.test("t1", roleId, not(IsZero), NotNull)
+ * 		.given("t1", roleId, not(IsZero), NotNull)
  * 		.param(roleId, "t1")
  * 		.from("from Users u")
  * 		.from(" inner join Role role on role.id = u.role_id ", "t1")
@@ -21,8 +20,8 @@ import com.fabway.smartquerybuilder.BuilderContext;
  * 		
  * String sqlCount = query.clone().select("count(u.id)").get();
  * String sqlSelect = query.clone().select("select u.*").get();
+ * }
  * </pre>
- * </code>
  * 
  */
 public class SQLQueryBuilder {
@@ -57,9 +56,9 @@ public class SQLQueryBuilder {
 	}
 
 	/**
-	 * Create a test for the value.
+	 * Adds a precondition in the context.
 	 * 
-	 * @see BuilderContext#test(String, Object, Predicate)
+	 * @see BuilderContext#given(String, Object, Predicate)
 	 * @param key
 	 * @param value
 	 * @param predicate
@@ -74,13 +73,12 @@ public class SQLQueryBuilder {
 	 * Apply the 'select' expression.
 	 * 
 	 * @param expression
-	 * @param tests
-	 *            the names of the test results to evaluate if the operation
-	 *            should be applied
+	 * @param conditions
+	 *            the precondition keys
 	 * @return this builder
 	 */
-	public SQLQueryBuilder select(String expression, String... tests) {
-		if (this.getContext().results(tests)) {
+	public SQLQueryBuilder select(String expression, String... conditions) {
+		if (this.getContext().results(conditions)) {
 			getQuery().select(expression);
 		}
 		return this;
@@ -90,13 +88,12 @@ public class SQLQueryBuilder {
 	 * Apply the 'from' expression.
 	 * 
 	 * @param expression
-	 * @param tests
-	 *            the names of the test results to evaluate if the operation
-	 *            should be applied
+	 * @param conditions
+	 *            the precondition keys
 	 * @return this builder
 	 */
-	public SQLQueryBuilder from(String expression, String... tests) {
-		if (this.getContext().results(tests)) {
+	public SQLQueryBuilder from(String expression, String... conditions) {
+		if (this.getContext().results(conditions)) {
 			getQuery().from(expression);
 		}
 		return this;
@@ -106,13 +103,12 @@ public class SQLQueryBuilder {
 	 * Apply the 'where' expression.
 	 * 
 	 * @param expression
-	 * @param tests
-	 *            the names of the test results to evaluate if the operation
-	 *            should be applied
+	 * @param conditions
+	 *            the precondition keys
 	 * @return this builder
 	 */
-	public SQLQueryBuilder where(String expression, String... tests) {
-		if (this.getContext().results(tests)) {
+	public SQLQueryBuilder where(String expression, String... conditions) {
+		if (this.getContext().results(conditions)) {
 			getQuery().where(expression);
 		}
 		return this;
@@ -122,13 +118,12 @@ public class SQLQueryBuilder {
 	 * Apply the 'group by' expression.
 	 * 
 	 * @param expression
-	 * @param tests
-	 *            the names of the test results to evaluate if the operation
-	 *            should be applied
+	 * @param conditions
+	 *            the precondition keys
 	 * @return this builder
 	 */
-	public SQLQueryBuilder groupBy(String expression, String... tests) {
-		if (this.getContext().results(tests)) {
+	public SQLQueryBuilder groupBy(String expression, String... conditions) {
+		if (this.getContext().results(conditions)) {
 			getQuery().groupBy(expression);
 		}
 		return this;
@@ -138,13 +133,12 @@ public class SQLQueryBuilder {
 	 * Apply the 'order by' expression.
 	 * 
 	 * @param expression
-	 * @param tests
-	 *            the names of the test results to evaluate if the operation
-	 *            should be applied
+	 * @param conditions
+	 *            the precondition keys
 	 * @return this builder
 	 */
-	public SQLQueryBuilder orderBy(String expression, String... tests) {
-		if (this.getContext().results(tests)) {
+	public SQLQueryBuilder orderBy(String expression, String... conditions) {
+		if (this.getContext().results(conditions)) {
 			getQuery().orderBy(expression);
 		}
 		return this;
@@ -154,13 +148,12 @@ public class SQLQueryBuilder {
 	 * Apply the method {@link SQLQueryTemplate#addParams(Object...)}
 	 * 
 	 * @param value
-	 * @param tests
-	 *            the names of the test results to evaluate if the operation
-	 *            should be applied
+	 * @param conditions
+	 *            the precondition keys
 	 * @return this instance
 	 */
-	public SQLQueryBuilder param(Object value, String... tests) {
-		if (this.getContext().results(tests)) {
+	public SQLQueryBuilder param(Object value, String... conditions) {
+		if (this.getContext().results(conditions)) {
 			getQuery().addParams(value);
 		}
 		return this;
