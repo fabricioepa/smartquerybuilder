@@ -1,7 +1,6 @@
 package com.fabway.smartquerybuilder.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -95,11 +94,17 @@ public class AssertionsTest {
 	}
 
 	@Test
-	public void testIsEmptyNullSafe() {
+	public void testIsEmptyFailsafe() {
 		// null-safe test
 		assertTrue(Assertions.isEmpty((null)));
+		try {
+			assertTrue(Assertions.isEmpty((new Exception())));
+			fail("Exception should not be a supported type");
+		} catch (Exception e) {
+			assertTrue("Exception for unsuported type", IllegalArgumentException.class.isAssignableFrom(e.getClass()));
+		}
 	}
-	
+
 	@Test
 	public void testIsEmptyString() {
 		// positive scope
@@ -112,7 +117,7 @@ public class AssertionsTest {
 		assertFalse(Assertions.isEmpty("  -"));
 		assertFalse(Assertions.isEmpty("-  "));
 	}
-	
+
 	@Test
 	public void testIsEmptyCollection() {
 		// positive scope
@@ -120,18 +125,18 @@ public class AssertionsTest {
 
 		List<String> list = new ArrayList<>();
 		list.add("one");
-		
+
 		// negative scope
 		assertFalse(Assertions.isEmpty(list));
 	}
-	
+
 	@Test
 	public void testIsEmptyArray() {
 		// positive scope
-		assertTrue(Assertions.isEmpty(new Object[]{}));
+		assertTrue(Assertions.isEmpty(new Object[] {}));
 
 		// negative scope
-		assertFalse(Assertions.isEmpty(new Object[]{1}));
+		assertFalse(Assertions.isEmpty(new Object[] { 1 }));
 	}
 
 }

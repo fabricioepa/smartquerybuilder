@@ -10,13 +10,13 @@ package com.fabway.smartquerybuilder;
  */
 public interface Function<I, O> {
 
-	/**
-	 * Execute the expression.
-	 * 
-	 * @param input
-	 *            the input
-	 * @return the output value
-	 */
-	O call(I input);
+    /**
+     * Execute the expression.
+     * 
+     * @param input
+     *            the input
+     * @return the output value
+     */
+    O call(I input);
 
 }

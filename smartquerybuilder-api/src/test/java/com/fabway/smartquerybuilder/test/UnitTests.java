@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	    PredicatesTest.class, 
 	    BuilderContextTest.class,
 		StatementBuilderTest.class, 
-		ConditionsTest.class })
+		ConditionsTest.class,
+		TextBufferTest.class})
 public class UnitTests {
 
 }

@@ -1,6 +1,6 @@
 package com.fabway.smartquerybuilder.sql.builders;
 
-import com.fabway.smartquerybuilder.SmartBuffer;
+import com.fabway.smartquerybuilder.TextBuffer;
 import com.fabway.smartquerybuilder.builders.StatementTemplate;
 
 /**
@@ -19,154 +19,152 @@ import com.fabway.smartquerybuilder.builders.StatementTemplate;
  * 
  */
 public class SQLQueryTemplate extends StatementTemplate {
-	
-	private SmartBuffer select = createBuffer();
 
-	private SmartBuffer from = createBuffer();
+    private TextBuffer select = createBuffer();
 
-	private SmartBuffer where = createBuffer();
+    private TextBuffer from = createBuffer();
 
-	private SmartBuffer groupBy = createBuffer();
+    private TextBuffer where = createBuffer();
 
-	private SmartBuffer orderBy = createBuffer();
+    private TextBuffer groupBy = createBuffer();
 
-	/**
-	 * Default constructor.
-	 */
-	public SQLQueryTemplate() {
-	}
+    private TextBuffer orderBy = createBuffer();
 
-	/**
-	 * Creates a copy from the source.
-	 * 
-	 * @param source
-	 */
-	public SQLQueryTemplate(SQLQueryTemplate source) {
-		super(source);
-		this.select = createBuffer(source.select);
-		this.from = createBuffer(source.from);
-		this.where = createBuffer(source.where);
-		this.groupBy = createBuffer(source.groupBy);
-		this.orderBy = createBuffer(source.orderBy);
-	}
+    /**
+     * Default constructor.
+     */
+    public SQLQueryTemplate() {
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.compal.imd.core.application.repository.smartquerybuilder.domains.
-	 * StatementTemplate#build()
-	 */
-	@Override
-	public String build() {
-		super.buffer.clear();
-		super.buffer.add(select);
-		super.buffer.add(from);
-		super.buffer.add(where);
-		super.buffer.add(groupBy);
-		super.buffer.add(orderBy);
-		return super.build();
-	}
+    /**
+     * Creates a copy from the source.
+     * 
+     * @param source
+     */
+    public SQLQueryTemplate(SQLQueryTemplate source) {
+        super(source);
+        this.select = createBuffer(source.select);
+        this.from = createBuffer(source.from);
+        this.where = createBuffer(source.where);
+        this.groupBy = createBuffer(source.groupBy);
+        this.orderBy = createBuffer(source.orderBy);
+    }
 
-	/**
-	 * Adds the text to the select clause buffer.
-	 * 
-	 * @param expression
-	 */
-	public void select(String expression) {
-		select.add(expression);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.fabway.smartquerybuilder.builders.StatementTemplate#build()
+     */
+    @Override
+    public String build() {
+        super.buffer.clear();
+        super.buffer.add(select);
+        super.buffer.add(from);
+        super.buffer.add(where);
+        super.buffer.add(groupBy);
+        super.buffer.add(orderBy);
+        return super.build();
+    }
 
-	/**
-	 * Adds the text to the from clause buffer.
-	 * 
-	 * @param expression
-	 */
-	public void from(String expression) {
-		from.add(expression);
-	}
+    /**
+     * Adds the text to the select clause buffer.
+     * 
+     * @param expression
+     */
+    public void select(String expression) {
+        select.add(expression);
+    }
 
-	/**
-	 * Adds the text to the where clause buffer.
-	 * 
-	 * @param expression
-	 */
-	public void where(String expression) {
-		where.add(expression);
-	}
+    /**
+     * Adds the text to the from clause buffer.
+     * 
+     * @param expression
+     */
+    public void from(String expression) {
+        from.add(expression);
+    }
 
-	/**
-	 * Adds the text to the group by clause buffer if all found tests are true.
-	 * 
-	 * @param expression
-	 *            the expression value
-	 */
-	public void groupBy(String expression) {
-		groupBy.add(expression);
-	}
+    /**
+     * Adds the text to the where clause buffer.
+     * 
+     * @param expression
+     */
+    public void where(String expression) {
+        where.add(expression);
+    }
 
-	/**
-	 * Adds the text to the order by clause buffer.
-	 * 
-	 * @param expression
-	 *            the expression
-	 */
-	public void orderBy(String expression) {
-		orderBy.add(expression);
-	}
+    /**
+     * Adds the text to the group by clause buffer if all found tests are true.
+     * 
+     * @param expression
+     *            the expression value
+     */
+    public void groupBy(String expression) {
+        groupBy.add(expression);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public SQLQueryTemplate clone() {
-		return new SQLQueryTemplate(this);
-	}
+    /**
+     * Adds the text to the order by clause buffer.
+     * 
+     * @param expression
+     *            the expression
+     */
+    public void orderBy(String expression) {
+        orderBy.add(expression);
+    }
 
-	/**
-	 * Returns the buffer for the SELECT clause.
-	 * 
-	 * @return the buffer
-	 */
-	public SmartBuffer getSelect() {
-		return select;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public SQLQueryTemplate clone() {
+        return new SQLQueryTemplate(this);
+    }
 
-	/**
-	 * Returns the buffer for the FROM clause.
-	 * 
-	 * @return the buffer
-	 */
-	public SmartBuffer getFrom() {
-		return from;
-	}
+    /**
+     * Returns the buffer for the SELECT clause.
+     * 
+     * @return the buffer
+     */
+    public TextBuffer getSelect() {
+        return select;
+    }
 
-	/**
-	 * Returns the buffer for the WHERE clause.
-	 * 
-	 * @return the buffer
-	 */
-	public SmartBuffer getWhere() {
-		return where;
-	}
+    /**
+     * Returns the buffer for the FROM clause.
+     * 
+     * @return the buffer
+     */
+    public TextBuffer getFrom() {
+        return from;
+    }
 
-	/**
-	 * Returns the buffer for the GORUP BY clause.
-	 * 
-	 * @return the buffer
-	 */
-	public SmartBuffer getGroupBy() {
-		return groupBy;
-	}
+    /**
+     * Returns the buffer for the WHERE clause.
+     * 
+     * @return the buffer
+     */
+    public TextBuffer getWhere() {
+        return where;
+    }
 
-	/**
-	 * Returns the buffer for the ORDER BY clause.
-	 * 
-	 * @return the buffer
-	 */
-	public SmartBuffer getOrderBy() {
-		return orderBy;
-	}
+    /**
+     * Returns the buffer for the GORUP BY clause.
+     * 
+     * @return the buffer
+     */
+    public TextBuffer getGroupBy() {
+        return groupBy;
+    }
+
+    /**
+     * Returns the buffer for the ORDER BY clause.
+     * 
+     * @return the buffer
+     */
+    public TextBuffer getOrderBy() {
+        return orderBy;
+    }
 }

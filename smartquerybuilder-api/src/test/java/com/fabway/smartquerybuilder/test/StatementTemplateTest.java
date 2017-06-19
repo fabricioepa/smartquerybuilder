@@ -87,11 +87,11 @@ public class StatementTemplateTest {
 		this.emptyTpl.addParams(1, 2);
 		assertEquals(1, this.emptyTpl.getParam(0));
 		assertEquals(2, this.emptyTpl.getParam(1));
-		
+
 		this.emptyTpl.addParams();
 		assertEquals(2, this.emptyTpl.getParamsList().size());
 	}
-	
+
 	@Test
 	public void testSetParam() {
 		List<Object> paramsList = new ArrayList<>();
@@ -100,10 +100,10 @@ public class StatementTemplateTest {
 		assertNotEquals(paramsList, this.emptyTpl.getParamsList());
 		this.emptyTpl.setParamsList(paramsList);
 		assertEquals(paramsList, this.emptyTpl.getParamsList());
-		
+
 		this.emptyTpl.setParamsList(null);
 		assertNull(this.emptyTpl.getParamsList());
-		
+
 	}
 
 	@Test
@@ -115,7 +115,6 @@ public class StatementTemplateTest {
 		this.tpl.put("tpl1");
 
 		assertNotEquals(tpl2.build(), this.tpl.build());
-
 	}
 
 }
