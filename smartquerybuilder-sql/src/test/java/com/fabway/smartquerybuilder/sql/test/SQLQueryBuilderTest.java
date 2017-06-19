@@ -56,5 +56,33 @@ public class SQLQueryBuilderTest {
                 sqlSelect);
         assertArrayEquals(new Object[] { level }, sb.paramsAsArray());
     }
+    
+    
+    @Test
+    public void testAlias() {
+        String userName = "a", userCountry = "b", userAge = "c", userLang = "c";
+
+        SQLQueryBuilder sb = new SQLQueryBuilder()
+                .gp("name", userName, NotNull)
+                .gp("country", userCountry, NotNull)
+                .gp("age", userAge, NotNull)
+                .gp("lang", userLang, NotNull)
+                .from(" from Users u")
+                .where(" where u.id > 0")
+                .where(" and u.name = ?", "name")
+                .where(" and u.country = ?", "country")
+                .where(" and u.age = ?", "age")
+                .where(" and u.lang = ?", "lang")
+                .orderBy(" order by u.name");
+
+        String sql = sb.select("select u.id, u.name, u.age, u.country, u.lang").get();
+
+        System.out.println(sql);
+        assertEquals("select u.id, u.name, u.age, u.country, u.lang from Users u "
+                + "where u.id > 0 and u.name = ? and u.country = ? and u.age = ? and u.lang = ? order by u.name",
+                sql);
+        assertArrayEquals(new Object[] { userName, userCountry, userAge, userLang }, sb.paramsAsArray());
+
+    }
 
 }
