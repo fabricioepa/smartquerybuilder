@@ -60,7 +60,7 @@ Object[]  params = sb.paramsAsArray();
  
 ## Keep It Cleaner Using: ALIAS
 
-You can use the alias methods to keep the code short.
+You can use the alias methods to keep the code shorter.
 
 Method  | Alias | Description
 ---       | --- | ---
