@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/fabricioepa/smartquerybuilder.svg?branch=master)](https://travis-ci.org/fabricioepa/smartquerybuilder)
+[![codecov](https://codecov.io/gh/fabricioepa/smartquerybuilder/branch/master/graph/badge.svg)](https://codecov.io/gh/fabricioepa/smartquerybuilder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
