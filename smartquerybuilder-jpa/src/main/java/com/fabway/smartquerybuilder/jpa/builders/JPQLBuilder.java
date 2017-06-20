@@ -1,5 +1,6 @@
 package com.fabway.smartquerybuilder.jpa.builders;
 
+import java.util.Map;
 import java.util.function.Predicate;
 
 import javax.persistence.EntityManager;
@@ -162,7 +163,9 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     @Override
     public <T> JPQLBuilder givenParam(String paramKey, T paramValue, final Predicate<T> predicate) {
-        return super.givenParam(paramKey, paramValue, predicate);
+        this.given(paramKey, paramValue, predicate);
+        this.param(paramKey, paramValue, paramKey);
+        return this.builder();
     }
 
     /**
@@ -193,6 +196,15 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public <T> TypedQuery<T> createQuery(EntityManager em, Class<T> resultClass) {
         return getTemplate().createQuery(em, resultClass);
+    }
+
+    /**
+     * Alias to {@link JPQLQueryTemplate#getNamedParameters()}
+     * 
+     * @return the named parameters
+     */
+    public Map<String, Object> namedParams() {
+        return this.getTemplate().getNamedParameters();
     }
 
     @Override

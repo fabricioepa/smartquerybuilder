@@ -90,7 +90,7 @@ public class JPQLQueryTemplate extends SQLQueryTemplate {
     private void mountSelect() {
         TextBuffer select = getSelect();
         if (!select.isEmpty()) {
-            select.addStart(" select ");
+            select.addStart("select ");
         }
     }
 
@@ -127,6 +127,22 @@ public class JPQLQueryTemplate extends SQLQueryTemplate {
         return new JPQLQueryTemplate(this);
     }
 
+    /**
+     * Returns the current named parameters.
+     * 
+     * @return the parameters map
+     */
+    public Map<String, Object> getNamedParameters() {
+        return namedParameters;
+    }
+
+    /**
+     * Creates a typed query using entity manager.
+     * 
+     * @param em
+     * @param resultClass
+     * @return the query
+     */
     public <T> TypedQuery<T> createQuery(EntityManager em, Class<T> resultClass) {
         String jpaquery = get();
         TypedQuery<T> query = em.createQuery(jpaquery, resultClass);
