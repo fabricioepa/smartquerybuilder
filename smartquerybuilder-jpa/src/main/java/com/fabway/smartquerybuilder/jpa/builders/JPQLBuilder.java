@@ -164,7 +164,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
     @Override
     public <T> JPQLBuilder givenParam(String paramKey, T paramValue, final Predicate<T> predicate) {
         this.given(paramKey, paramValue, predicate);
-        this.param(paramKey, paramValue, paramKey);
+        this.paramNamed(paramKey, paramValue, paramKey);
         return this.builder();
     }
 
@@ -179,7 +179,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      *            the preconditions
      * @return this builder
      */
-    public JPQLBuilder param(String name, Object value, String... conditions) {
+    public JPQLBuilder paramNamed(String name, Object value, String... conditions) {
         if (this.getContext().results(conditions)) {
             getTemplate().setParameter(name, value);
         }

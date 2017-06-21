@@ -7,6 +7,7 @@ import static com.fabway.smartquerybuilder.Predicates.Null;
 import static com.fabway.smartquerybuilder.Predicates.True;
 import static com.fabway.smartquerybuilder.Predicates.and;
 import static com.fabway.smartquerybuilder.Predicates.not;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +53,27 @@ public class JPQLBuilderTest {
     }
     
     @Test
+    public void testOrClause(){
+        
+        String userName = "a";
+
+        JPQLBuilder jb = new JPQLBuilder()
+                .given("pName", userName, NotNull)
+                .param(userName, "pName")
+                .param("BR")
+                .select("u.*")
+                .from("Users u")
+                .or("u.name = ?", "pName")
+                .or("u.country = ?")
+                .orderBy("u.name");
+        
+        assertEquals("select u.* from Users u where u.name = ? or u.country = ? order by u.name",
+                jb.get());
+        assertArrayEquals(new Object[]{userName, "BR"} , jb.paramsAsArray());
+        
+    }
+    
+    @Test
     public void testGroupBy(){
         
         String userName = "a", userCountry = "b";
@@ -68,8 +90,6 @@ public class JPQLBuilderTest {
                 .groupBy("u.country", "group")
                 .orderBy("u.country");
         
-        System.out.println(jb.build());
-
         assertEquals("select count(u.id), u.country from Users u where u.id > 0 and u.name = ? and u.country = ? group by u.country order by u.country",
                 jb.get());
         
@@ -77,7 +97,7 @@ public class JPQLBuilderTest {
  
     @SuppressWarnings("unchecked")
     @Test
-    public void testCreateQuery(){
+    public void testCreateQueryNamedParams(){
         
         String userName = "a", userCountry = "b";
 
@@ -86,16 +106,13 @@ public class JPQLBuilderTest {
                 .gp("country", userCountry, NotNull)
                 .select("count(u.id) as count, u.country as country")
                 .from("Users u")
-                .where("u.id > 0")
                 .and("u.name = :name", "name")
-                .and("u.country = :country", "country")
-                .orderBy("u.country");
+                .and("u.country = :country", "country");
         
         
-        String jpql = "select count(u.id) as count, u.country as country from Users u where u.id > 0 and u.name = :name "
-                + "and u.country = :country order by u.country";
+        String jpql = "select count(u.id) as count, u.country as country from Users u where u.name = :name "
+                + "and u.country = :country";
         
-        System.out.println(jb.get());
         assertEquals(jpql,  jb.get());
 
         EntityManager em = Mockito.mock(EntityManager.class);
@@ -112,7 +129,41 @@ public class JPQLBuilderTest {
         Mockito.verify(mockQuery).setParameter("country",  userCountry);
     }
     
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCreateQueryPositionalParams(){
+        
+        String userName = "a", userCountry = "b";
 
+        JPQLBuilder jb = new JPQLBuilder()
+                .given("name", userName, NotNull)
+                .given("country", userCountry, NotNull)
+                .param(userName,"name")
+                .param(userCountry, "country")
+                .select("*")
+                .from("Users u")
+                .and("u.name = ?", "name")
+                .and("u.country = ?", "country");
+        
+        
+        String jpql = "select * from Users u where u.name = ? and u.country = ?";
+        
+        assertEquals(jpql,  jb.get());
+
+        EntityManager em = Mockito.mock(EntityManager.class);
+        TypedQuery<QueryResult> mockQuery = Mockito.mock(TypedQuery.class);
+        when(em.createQuery(jpql, QueryResult.class)).thenReturn(mockQuery);
+        
+
+        TypedQuery<QueryResult> createdQuery = jb.createQuery(em, QueryResult.class);
+        
+        Mockito.verify(em).createQuery(jpql, QueryResult.class);
+        assertEquals(mockQuery, createdQuery);
+        
+        Mockito.verify(mockQuery).setParameter(1,  userName);
+        Mockito.verify(mockQuery).setParameter(2,  userCountry);
+    }
+    
     class QueryResult {
         int count;
         String country;
@@ -129,7 +180,5 @@ public class JPQLBuilderTest {
         public void setCountry(String country) {
             this.country = country;
         }
-        
     }
-    
 }
