@@ -53,6 +53,53 @@ public class JPQLBuilderTest {
     }
     
     @Test
+    public void testSelectNullSafe() {
+        assertEquals(" from FromExpr", new JPQLBuilder()
+        .select("SelectExpr", (String)null)
+        .from("FromExpr").get());
+    }
+    
+    @Test
+    public void testFromNullSafe() {
+        assertEquals("", new JPQLBuilder()
+        .from("FromExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testWhereNullSafe() {
+        assertEquals("", new JPQLBuilder()
+        .where("WhereExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testGroupByNullSafe() {
+        assertEquals(" from FromExpr", new JPQLBuilder()
+        .from("FromExpr")
+        .groupBy("GroupExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testOrderByNullSafe() {
+        assertEquals(" from FromExpr", new JPQLBuilder()
+        .from("FromExpr")
+        .orderBy("OrderByExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testOrNullSafe() {
+        assertEquals(" from FromExpr", new JPQLBuilder()
+        .from("FromExpr")
+        .or("OrExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testAndNullSafe() {
+        assertEquals(" from FromExpr", new JPQLBuilder()
+        .from("FromExpr")
+        .and("OrExpr", (String)null).get());
+    }
+    
+    @Test
     public void testOrClause(){
         
         String userName = "a";

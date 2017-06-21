@@ -42,7 +42,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder select(String expression, String... tests) {
         if (this.getContext().results(tests)) {
-            getTemplate().select(expression);
+            this.getTemplate().select(expression);
         }
         return this;
     }
@@ -57,7 +57,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder from(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().from(expression);
+            this.getTemplate().from(expression);
         }
         return this;
     }
@@ -72,7 +72,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder where(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().where(expression);
+            this.getTemplate().where(expression);
         }
         return this;
     }
@@ -87,7 +87,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder groupBy(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().groupBy(expression);
+            this.getTemplate().groupBy(expression);
         }
         return this;
     }
@@ -102,14 +102,14 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder orderBy(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().orderBy(expression);
+            this.getTemplate().orderBy(expression);
         }
         return this;
     }
 
     public JPQLBuilder and(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().and(expression);
+            this.getTemplate().and(expression);
         }
         return this;
     }
@@ -124,7 +124,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder or(String expression, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().or(expression);
+            this.getTemplate().or(expression);
         }
         return this;
     }
@@ -181,7 +181,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      */
     public JPQLBuilder paramNamed(String name, Object value, String... conditions) {
         if (this.getContext().results(conditions)) {
-            getTemplate().setParameter(name, value);
+            this.getTemplate().setParameter(name, value);
         }
         return this;
     }
@@ -195,7 +195,7 @@ public class JPQLBuilder extends AbstractBuilder<JPQLBuilder, JPQLQueryTemplate>
      * @return this builder
      */
     public <T> TypedQuery<T> createQuery(EntityManager em, Class<T> resultClass) {
-        return getTemplate().createQuery(em, resultClass);
+        return this.getTemplate().createQuery(em, resultClass);
     }
 
     /**
