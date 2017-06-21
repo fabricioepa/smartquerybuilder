@@ -5,8 +5,8 @@ package com.fabway.smartquerybuilder;
  * with no java.util.Predicate support.
  */
 public final class Conditions {
-
-    private Conditions() {
+    
+    public Conditions(){
     }
 
     /**

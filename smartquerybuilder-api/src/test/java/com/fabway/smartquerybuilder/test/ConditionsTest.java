@@ -1,9 +1,19 @@
 package com.fabway.smartquerybuilder.test;
 
-import static com.fabway.smartquerybuilder.Conditions.*;
-import static org.junit.Assert.*;
+import static com.fabway.smartquerybuilder.Conditions.False;
+import static com.fabway.smartquerybuilder.Conditions.True;
+import static com.fabway.smartquerybuilder.Conditions.and;
+import static com.fabway.smartquerybuilder.Conditions.not;
+import static com.fabway.smartquerybuilder.Conditions.or;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.fabway.smartquerybuilder.Condition;
+import com.fabway.smartquerybuilder.Conditions;
 
 public class ConditionsTest {
 
@@ -14,6 +24,7 @@ public class ConditionsTest {
         assertTrue(and(False, False).evaluate(false));
         // negative scope
         assertNull(and());
+        assertNull(and((Condition[])null));
         assertFalse(and(True, False).evaluate(true));
     }
 
@@ -27,6 +38,7 @@ public class ConditionsTest {
 
         // negative scope
         assertNull(or());
+        assertNull(or((Condition[])null));
         assertFalse(or(False, False).evaluate(true));
         assertFalse(or(True, True).evaluate(false));
     }
@@ -43,4 +55,8 @@ public class ConditionsTest {
         assertFalse(not(False).evaluate(false));
     }
 
+    @Test
+    public void testDefaultConstructorWorks() {
+        assertNotNull(new Conditions());
+    }
 }

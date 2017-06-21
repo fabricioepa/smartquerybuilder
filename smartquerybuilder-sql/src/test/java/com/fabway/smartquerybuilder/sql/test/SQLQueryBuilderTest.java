@@ -38,8 +38,30 @@ public class SQLQueryBuilderTest {
         assertArrayEquals(new Object[] { level }, sb.paramsAsArray());
     }
     
+    
     @Test
-    public void testGroupby() {
+    public void testSelectNullSafe() {
+        assertEquals("FromExpr", new SQLQueryBuilder()
+        .select("SelectExpr", (String)null)
+        .from("FromExpr").get());
+    }
+    
+    @Test
+    public void testGroupByNullSafe() {
+        assertEquals("FromExpr", new SQLQueryBuilder()
+        .from("FromExpr")
+        .groupBy("GroupExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testOrderByNullSafe() {
+        assertEquals("FromExpr", new SQLQueryBuilder()
+        .from("FromExpr")
+        .orderBy("OrderByExpr", (String)null).get());
+    }
+    
+    @Test
+    public void testGroupBy() {
         String level = "root";
 
         SQLQueryBuilder sb = new SQLQueryBuilder()
@@ -77,7 +99,6 @@ public class SQLQueryBuilderTest {
 
         String sql = sb.select("select u.id, u.name, u.age, u.country, u.lang").get();
 
-        System.out.println(sql);
         assertEquals("select u.id, u.name, u.age, u.country, u.lang from Users u "
                 + "where u.id > 0 and u.name = ? and u.country = ? and u.age = ? and u.lang = ? order by u.name",
                 sql);

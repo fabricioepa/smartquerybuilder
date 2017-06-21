@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SQLFunctionsTest.class, SQLQueryBuilderTest.class })
+@SuiteClasses({ SQLFunctionsTest.class, SQLQueryTemplateTest.class, SQLQueryBuilderTest.class })
 public class UnitTests {
 
 }

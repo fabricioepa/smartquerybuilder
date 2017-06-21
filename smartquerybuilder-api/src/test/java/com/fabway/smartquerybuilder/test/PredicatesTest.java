@@ -6,10 +6,15 @@ import static com.fabway.smartquerybuilder.Predicates.and;
 import static com.fabway.smartquerybuilder.Predicates.not;
 import static com.fabway.smartquerybuilder.Predicates.or;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.function.Predicate;
+
 import org.junit.Test;
+
+import com.fabway.smartquerybuilder.Predicates;
 
 public class PredicatesTest {
 
@@ -20,6 +25,7 @@ public class PredicatesTest {
         assertTrue(and(False, False).test(false));
         // negative scope
         assertNull(and());
+        assertNull(and((Predicate<Object>[]) null));
         assertFalse(and(True, False).test(true));
     }
 
@@ -33,6 +39,7 @@ public class PredicatesTest {
 
         // negative scope
         assertNull(or());
+        assertNull(or((Predicate<Object>[])null));
         assertFalse(or(False, False).test(true));
         assertFalse(or(True, True).test(false));
     }
@@ -47,6 +54,11 @@ public class PredicatesTest {
         assertNull(not(null));
         assertFalse(not(True).test(true));
         assertFalse(not(False).test(false));
+    }
+    
+    @Test
+    public void testDefaultConstructorWorks() {
+        assertNotNull(new Predicates());
     }
 
 }

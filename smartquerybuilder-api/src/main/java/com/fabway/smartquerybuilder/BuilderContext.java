@@ -52,7 +52,7 @@ public class BuilderContext {
      * @return the evaluated value
      */
     public boolean results(String... keys) {
-        return Stream.of(keys).filter(k -> !result(k)).count() == 0;
+        return keys != null && Stream.of(keys).filter(k -> !result(k)).count() == 0;
     }
 
     /**

@@ -8,8 +8,8 @@ import java.util.Collection;
  * 
  */
 public final class Assertions {
-
-    private Assertions() {
+    
+    public Assertions(){
     }
 
     /**

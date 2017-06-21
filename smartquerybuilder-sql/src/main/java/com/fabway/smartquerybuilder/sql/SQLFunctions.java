@@ -6,9 +6,9 @@ import com.fabway.smartquerybuilder.Function;
  * Define the SQL Functions for Smart Querying.
  * 
  */
-public final class SQLFunctions {
+public class SQLFunctions {
 
-	private SQLFunctions() {
+	public SQLFunctions() {
 	}
 
 	/**

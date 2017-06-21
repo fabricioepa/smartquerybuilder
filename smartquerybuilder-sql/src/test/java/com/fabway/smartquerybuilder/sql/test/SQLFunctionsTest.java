@@ -1,6 +1,8 @@
 package com.fabway.smartquerybuilder.sql.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -24,6 +26,11 @@ public class SQLFunctionsTest {
     public void testLikeEnd() {
         assertNull(SQLFunctions.LikeEnd.call(null));
         assertEquals("input%", SQLFunctions.LikeEnd.call("input"));
+    }
+
+    @Test
+    public void testDefaultConstructorWorks() {
+        assertNotNull(new SQLFunctions());
     }
 
 }

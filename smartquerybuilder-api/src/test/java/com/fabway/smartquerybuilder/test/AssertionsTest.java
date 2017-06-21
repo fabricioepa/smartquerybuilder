@@ -1,6 +1,9 @@
 package com.fabway.smartquerybuilder.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -137,6 +140,11 @@ public class AssertionsTest {
 
         // negative scope
         assertFalse(Assertions.isEmpty(new Object[] { 1 }));
+    }
+    
+    @Test
+    public void testDefaultConstructorWorks() {
+        assertNotNull(new Assertions());
     }
 
 }

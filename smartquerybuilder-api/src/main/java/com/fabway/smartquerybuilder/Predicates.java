@@ -10,7 +10,7 @@ import java.util.stream.Stream;
  */
 public final class Predicates {
 
-    protected Predicates() {
+    public Predicates() {
     }
 
     public static Predicate<Object> True = val -> Conditions.True.evaluate(val);
